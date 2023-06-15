@@ -12,6 +12,9 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   bool oTurn = true;
   List<String> displayXO = ['', '', '', '', '', '', '', '', ''];
+  int oScore = 0;
+  int xScore = 0;
+  int fillBoxes = 0;
 
   String resultDeclaration = '';
   @override
@@ -27,11 +30,41 @@ class _GameScreenState extends State<GameScreen> {
       backgroundColor: AppColors.primaryOne,
       body: Column(
         children: [
-          const Expanded(
+          Expanded(
               flex: 1,
-              child: Text(
-                "Score Board",
-                style: ThemeText.text,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Player O",
+                        style: ThemeText.textPlayer,
+                      ),
+                      Text(
+                        oScore.toString(),
+                        style: ThemeText.textScore,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Player X",
+                        style: ThemeText.textPlayer,
+                      ),
+                      Text(
+                        xScore.toString(),
+                        style: ThemeText.textScore,
+                      )
+                    ],
+                  )
+                ],
               )),
           Expanded(
               flex: 3,
@@ -60,25 +93,63 @@ class _GameScreenState extends State<GameScreen> {
                     );
                   })),
           Expanded(
-              child: Text(
-            resultDeclaration,
-            style: ThemeText.textWins,
+              child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  resultDeclaration,
+                  style: ThemeText.textWins,
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 32, vertical: 16)),
+                    onPressed: () {
+                      _clearBoard();
+                    },
+                    child: const Text(
+                      "Player Again!",
+                      style: ThemeText.textPlayer,
+                    ))
+              ],
+            ),
           )),
         ],
       ),
     );
   }
 
+  void _clearBoard() {
+    setState(() {
+      displayXO = ['', '', '', '', '', '', '', '', ''];
+      resultDeclaration = '';
+      fillBoxes = 0;
+    });
+  }
+
   void _tapped(int index) {
     setState(() {
       if (oTurn && displayXO[index] == '') {
         displayXO[index] = '0';
+        fillBoxes++;
       } else if (!oTurn && displayXO[index] == '') {
         displayXO[index] = 'X';
+        fillBoxes++;
       }
       oTurn = !oTurn;
       _checkWinner();
     });
+  }
+
+  void _updateScore(String winner) {
+    if (winner == '0') {
+      oScore++;
+    } else {
+      xScore++;
+    }
   }
 
   void _checkWinner() {
@@ -87,8 +158,10 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[0] == displayXO[2] &&
         displayXO[0] != '') {
       setState(() {
-        resultDeclaration = 'Player ' + displayXO[0] + ' Wins!';
+        resultDeclaration = 'Player ${displayXO[0]} Wins!';
+        _updateScore(displayXO[0]);
       });
+      _clearBoard();
     }
 
     //NOTE check second row
@@ -96,8 +169,10 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[3] == displayXO[5] &&
         displayXO[3] != '') {
       setState(() {
-        resultDeclaration = 'Player ' + displayXO[3] + ' Wins!';
+        resultDeclaration = 'Player ${displayXO[3]} Wins!';
+        _updateScore(displayXO[3]);
       });
+      _clearBoard();
     }
 
     //NOTE check third row
@@ -105,8 +180,10 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[6] == displayXO[8] &&
         displayXO[6] != '') {
       setState(() {
-        resultDeclaration = 'Player ' + displayXO[6] + ' Wins!';
+        resultDeclaration = 'Player ${displayXO[6]} Wins!';
+        _updateScore(displayXO[6]);
       });
+      _clearBoard();
     }
 
     //NOTE check first column
@@ -114,8 +191,10 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[0] == displayXO[6] &&
         displayXO[0] != '') {
       setState(() {
-        resultDeclaration = 'Player ' + displayXO[0] + ' Wins!';
+        resultDeclaration = 'Player ${displayXO[0]} Wins!';
+        _updateScore(displayXO[0]);
       });
+      _clearBoard();
     }
 
     //NOTE check second column
@@ -123,8 +202,10 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[1] == displayXO[7] &&
         displayXO[1] != '') {
       setState(() {
-        resultDeclaration = 'Player ' + displayXO[1] + ' Wins!';
+        resultDeclaration = 'Player ${displayXO[1]} Wins!';
+        _updateScore(displayXO[1]);
       });
+      _clearBoard();
     }
 
     //NOTE check third column
@@ -132,8 +213,10 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[2] == displayXO[8] &&
         displayXO[2] != '') {
       setState(() {
-        resultDeclaration = 'Player ' + displayXO[2] + ' Wins!';
+        resultDeclaration = 'Player ${displayXO[2]} Wins!';
+        _updateScore(displayXO[2]);
       });
+      _clearBoard();
     }
 
     //NOTE check first diagonal
@@ -141,8 +224,10 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[0] == displayXO[8] &&
         displayXO[0] != '') {
       setState(() {
-        resultDeclaration = 'Player ' + displayXO[0] + ' Wins!';
+        resultDeclaration = 'Player ${displayXO[0]} Wins!';
+        _updateScore(displayXO[0]);
       });
+      _clearBoard();
     }
 
     //NOTE check second diagonal
@@ -150,9 +235,16 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[2] == displayXO[6] &&
         displayXO[2] != '') {
       setState(() {
-        resultDeclaration = 'Player ' + displayXO[2] + ' Wins!';
+        resultDeclaration = 'Player ${displayXO[2]} Wins!';
+        _updateScore(displayXO[2]);
       });
+      _clearBoard();
     }
-    print(resultDeclaration);
+    if (fillBoxes == 9) {
+      setState(() {
+        resultDeclaration = 'Nobody Wins';
+      });
+      _clearBoard();
+    }
   }
 }

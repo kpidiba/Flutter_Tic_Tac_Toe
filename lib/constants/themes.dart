@@ -17,4 +17,16 @@ abstract class ThemeText {
       fontSize: 20,
       letterSpacing: 3,
       fontWeight: FontWeight.w600);
+
+  static const TextStyle textPlayer = TextStyle(
+      color: Colors.black,
+      fontSize: 20,
+      letterSpacing: 3,
+      fontWeight: FontWeight.w600);
+
+  static const TextStyle textScore = TextStyle(
+      color: Colors.white,
+      fontSize: 23,
+      letterSpacing: 3,
+      fontWeight: FontWeight.w700);
 }
