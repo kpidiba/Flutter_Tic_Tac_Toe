@@ -23,6 +23,12 @@ abstract class ThemeText {
       fontSize: 20,
       letterSpacing: 3,
       fontWeight: FontWeight.w600);
+  
+  static const TextStyle textPlayerTurn = TextStyle(
+      color: Color.fromARGB(255, 104, 224, 108),
+      fontSize: 20,
+      letterSpacing: 3,
+      fontWeight: FontWeight.w600);
 
   static const TextStyle textScore = TextStyle(
       color: Colors.white,

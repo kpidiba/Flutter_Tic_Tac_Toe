@@ -38,9 +38,11 @@ class _GameScreenState extends State<GameScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Player O",
-                        style: ThemeText.textPlayer,
+                        style: oTurn
+                            ? ThemeText.textPlayerTurn
+                            : ThemeText.textPlayer,
                       ),
                       Text(
                         oScore.toString(),
@@ -54,9 +56,11 @@ class _GameScreenState extends State<GameScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Player X",
-                        style: ThemeText.textPlayer,
+                        style: !oTurn
+                            ? ThemeText.textPlayerTurn
+                            : ThemeText.textPlayer,
                       ),
                       Text(
                         xScore.toString(),
@@ -108,10 +112,10 @@ class _GameScreenState extends State<GameScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 16)),
                     onPressed: () {
-                      _clearBoard();
+                      _clearBoardAll();
                     },
                     child: const Text(
-                      "Player Again!",
+                      "Lancer un jeu!",
                       style: ThemeText.textPlayer,
                     ))
               ],
@@ -130,18 +134,36 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  void _tapped(int index) {
+  void _clearBoardAll() {
     setState(() {
-      if (oTurn && displayXO[index] == '') {
-        displayXO[index] = '0';
-        fillBoxes++;
-      } else if (!oTurn && displayXO[index] == '') {
-        displayXO[index] = 'X';
-        fillBoxes++;
-      }
-      oTurn = !oTurn;
-      _checkWinner();
+      displayXO = ['', '', '', '', '', '', '', '', ''];
+      resultDeclaration = '';
+      fillBoxes = 0;
+      oScore = 0;
+      xScore = 0;
     });
+  }
+
+  void _tapped(int index) {
+    if (resultDeclaration == '') {
+      setState(() {
+        if (oTurn && displayXO[index] == '') {
+          displayXO[index] = '0';
+          fillBoxes++;
+        } else if (!oTurn && displayXO[index] == '') {
+          displayXO[index] = 'X';
+          fillBoxes++;
+        }
+        oTurn = !oTurn;
+        _checkWinner();
+        if (oScore == 3) {
+          resultDeclaration = 'Player O Wins!';
+        } else if (xScore == 3) {
+          resultDeclaration = 'Player X Wins!';
+        }
+        // resultDeclaration = "okdkakaka";
+      });
+    }
   }
 
   void _updateScore(String winner) {
@@ -158,7 +180,7 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[0] == displayXO[2] &&
         displayXO[0] != '') {
       setState(() {
-        resultDeclaration = 'Player ${displayXO[0]} Wins!';
+        // resultDeclaration = 'Player ${displayXO[0]} Wins!';
         _updateScore(displayXO[0]);
       });
       _clearBoard();
@@ -169,7 +191,7 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[3] == displayXO[5] &&
         displayXO[3] != '') {
       setState(() {
-        resultDeclaration = 'Player ${displayXO[3]} Wins!';
+        // resultDeclaration = 'Player ${displayXO[3]} Wins!';
         _updateScore(displayXO[3]);
       });
       _clearBoard();
@@ -180,7 +202,7 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[6] == displayXO[8] &&
         displayXO[6] != '') {
       setState(() {
-        resultDeclaration = 'Player ${displayXO[6]} Wins!';
+        // resultDeclaration = 'Player ${displayXO[6]} Wins!';
         _updateScore(displayXO[6]);
       });
       _clearBoard();
@@ -191,7 +213,7 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[0] == displayXO[6] &&
         displayXO[0] != '') {
       setState(() {
-        resultDeclaration = 'Player ${displayXO[0]} Wins!';
+        // resultDeclaration = 'Player ${displayXO[0]} Wins!';
         _updateScore(displayXO[0]);
       });
       _clearBoard();
@@ -202,7 +224,7 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[1] == displayXO[7] &&
         displayXO[1] != '') {
       setState(() {
-        resultDeclaration = 'Player ${displayXO[1]} Wins!';
+        // resultDeclaration = 'Player ${displayXO[1]} Wins!';
         _updateScore(displayXO[1]);
       });
       _clearBoard();
@@ -213,7 +235,7 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[2] == displayXO[8] &&
         displayXO[2] != '') {
       setState(() {
-        resultDeclaration = 'Player ${displayXO[2]} Wins!';
+        // resultDeclaration = 'Player ${displayXO[2]} Wins!';
         _updateScore(displayXO[2]);
       });
       _clearBoard();
@@ -224,7 +246,7 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[0] == displayXO[8] &&
         displayXO[0] != '') {
       setState(() {
-        resultDeclaration = 'Player ${displayXO[0]} Wins!';
+        // resultDeclaration = 'Player ${displayXO[0]} Wins!';
         _updateScore(displayXO[0]);
       });
       _clearBoard();
@@ -235,7 +257,7 @@ class _GameScreenState extends State<GameScreen> {
         displayXO[2] == displayXO[6] &&
         displayXO[2] != '') {
       setState(() {
-        resultDeclaration = 'Player ${displayXO[2]} Wins!';
+        // resultDeclaration = 'Player ${displayXO[2]} Wins!';
         _updateScore(displayXO[2]);
       });
       _clearBoard();
